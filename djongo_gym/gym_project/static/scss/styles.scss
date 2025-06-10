@@ -1,1 +1,24 @@
+@import "~bootstrap/scss/functions";
+
+$primary: #673ab7;
+$secondary: #00bcd4;
+$body-bg: #f4f6f9;
+$body-color: #333;
+$font-family-sans-serif: 'Inter', sans-serif;
+
 @import "~bootstrap/scss/bootstrap";
+
+body {
+    background: linear-gradient(135deg, #ece9e6 0%, #ffffff 100%);
+    font-family: $font-family-sans-serif;
+}
+
+.navbar-brand {
+    font-weight: 600;
+    letter-spacing: .05rem;
+}
+
+.footer {
+    background-color: $primary;
+    color: #fff;
+}
