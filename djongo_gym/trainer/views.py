@@ -22,62 +22,12 @@ def multi_listados(request, tipo):
         messages.error(request, 'Vista no válida')
         return redirect('trainer:multi_listados', tipo='ejercicios')
 
+# Renderizar lista de ejercicios o rutinas
     return render(request, 'trainer/multi_listados.html', {
         'items': items,
         'tipo': tipo,
         'crear_url': crear_url
     })
-
-# Vista para crear una nueva rutina
-@login_required
-def RoutineCreateView(request):
-    if request.method == 'POST':
-        form = RoutineForm(request.POST)
-        if form.is_valid():
-            try:
-                form.save()
-                messages.success(request, 'Rutina creada exitosamente')
-                return redirect('trainer:multi_listados', tipo='rutinas')
-            except Exception as e:
-                messages.error(request, f'Error al crear la rutina: {str(e)}')
-    else:
-        form = RoutineForm()
-
-    return render(request, 'trainer/crear_rutina.html', {
-        'form': form
-    })
-
-# Vista para crear o actualizar una rutina
-@login_required
-def RoutineCreateUpdateView(request, pk=None):
-    ejercicios = TrainerExercise.objects.all()
-    # Si se proporciona un ID, se obtiene la rutina existente
-    if pk:
-        rutina = get_object_or_404(TrainerRutina, pk=pk)
-    else:
-        rutina = None
-
-    if request.method == 'POST':
-        form = RoutineForm(request.POST, instance=rutina)
-        if form.is_valid():
-            rutina = form.save()
-            rutina.exercises.set(request.POST.getlist('ejercicios'))  # Asociar ejercicios seleccionados
-            rutina.save()
-
-            if pk:
-                messages.success(request, 'Rutina actualizada exitosamente')
-            else:
-                messages.success(request, 'Rutina creada exitosamente')
-            return redirect('trainer:multi_listados', tipo='rutinas')
-    else:
-        form = RoutineForm(instance=rutina)
-
-    return render(request, 'trainer/crear_rutina.html', {
-        'form': form,
-        'ejercicios': ejercicios,
-        'edit_mode': bool(pk)
-    })
-
 
 # Vista para crear un ejercicio
 @login_required
