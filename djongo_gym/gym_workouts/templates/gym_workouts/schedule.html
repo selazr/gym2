@@ -1,8 +1,7 @@
 {% extends "base.html" %}
-
 {% block content %}
-<div class="container mt-5">
-    <h1 class="mb-4 text-center">Horario de Rutinas</h1>
+<div class="container py-5">
+    <h1 class="mb-4 text-center fw-bold">Horario de Rutinas</h1>
 
     {% if messages %}
         {% for message in messages %}
@@ -10,47 +9,47 @@
         {% endfor %}
     {% endif %}
 
-    <table class="table table-bordered">
-        <thead class="table-dark">
-            <tr>
-                <th>Hora</th>
-                {% for fecha in fechas_disponibles %}
-                    <th>{{ fecha.nombre }} {{ fecha.numero }}</th>
-                {% endfor %}
-            </tr>
-        </thead>
-        
-        <tbody>
-            {% for hora in horas_disponibles %}
-            <tr>
-                <td><strong>{{ hora }}:00</strong></td>
-                {% for fecha in fechas_disponibles %}
-                    <td class="text-center" style="position: relative;">
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>Hora</th>
+                    {% for fecha in fechas_disponibles %}
+                        <th>{{ fecha.nombre }}<br><span class="fw-light">{{ fecha.numero }}</span></th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for hora in horas_disponibles %}
+                <tr>
+                    <td class="fw-semibold bg-light">{{ hora }}:00</td>
+                    {% for fecha in fechas_disponibles %}
+                    <td style="position: relative; min-width: 180px;">
                         {% for rutina in rutinas %}
                             {% if rutina.dia_numero == fecha.numero and rutina.hora == hora %}
-                                <div style="background-color: #f8f9fa; padding: 10px; border-radius: 5px;">
-                                    <strong>{{ rutina.rutina.nom }}</strong>
-                                    <br>
-                                    <small>{{ rutina.inscritos|length }}/10 inscritos</small>
-                                    <form method="POST" action="{% url 'gym_workouts:schedule' %}">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="session_id" value="{{ rutina.id_str }}">
-                                        {% if request.user.id|stringformat:"s" in rutina.inscritos %}
-                                            <button type="submit" name="action" value="leave" class="btn btn-sm btn-warning mt-1">Cancelar</button>
-                                        {% elif rutina.inscritos|length < 10 %}
-                                            <button type="submit" name="action" value="join" class="btn btn-sm btn-success mt-1">Apuntarse</button>
-                                        {% else %}
-                                            <button class="btn btn-sm btn-danger mt-1" disabled>Llena</button>
-                                        {% endif %}
-                                    </form>
-                                </div>
+                            <div class="bg-white border rounded p-2 shadow-sm">
+                                <strong class="text-dark">{{ rutina.rutina.nom }}</strong><br>
+                                <small class="text-muted">{{ rutina.inscritos|length }}/10 inscritos</small>
+                                <form method="POST" action="{% url 'gym_workouts:schedule' %}" class="mt-2">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="session_id" value="{{ rutina.id_str }}">
+                                    {% if request.user.id|stringformat:"s" in rutina.inscritos %}
+                                        <button type="submit" name="action" value="leave" class="btn btn-sm btn-warning w-100">Cancelar</button>
+                                    {% elif rutina.inscritos|length < 10 %}
+                                        <button type="submit" name="action" value="join" class="btn btn-sm btn-success w-100">Apuntarse</button>
+                                    {% else %}
+                                        <button class="btn btn-sm btn-danger w-100" disabled>Llena</button>
+                                    {% endif %}
+                                </form>
+                            </div>
                             {% endif %}
                         {% endfor %}
                     </td>
+                    {% endfor %}
+                </tr>
                 {% endfor %}
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}

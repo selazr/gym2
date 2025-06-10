@@ -1,28 +1,29 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container mt-5">
-    <h1 class="text-center mb-4">Elige Tu Plan de Suscripción</h1>
+<div class="container py-5">
+    <h1 class="text-center mb-5 fw-bold">Elige Tu Plan de Suscripción</h1>
 
-    <div class="row d-flex justify-content-center">
+    <div class="row justify-content-center">
         {% for plan in plans %}
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-lg text-center border-0 rounded-4">
-                <div class="card-body d-flex flex-column">
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 border-0 shadow plan-card rounded-4">
+                <div class="card-body d-flex flex-column text-center p-4">
                     <h3 class="card-title fw-bold">{{ plan.name }}</h3>
-                    <h4 class="text-primary mt-3">{{ plan.price }}€ / mes</h4>
-                    <p class="mt-3 text-muted">
+                    <h4 class="text-success mt-2">{{ plan.price }}€ / mes</h4>
+
+                    <p class="mt-3">
                         {% if plan.max_workouts_per_week == -1 %}
-                            <span class="badge bg-success">¡Entrenamientos Ilimitados!</span>
+                            <span class="badge bg-success fs-6">¡Entrenamientos Ilimitados!</span>
                         {% else %}
-                            Hasta <strong>{{ plan.max_workouts_per_week }}</strong> entrenamientos por semana
+                            <span class="text-muted">Hasta <strong>{{ plan.max_workouts_per_week }}</strong> entrenamientos por semana</span>
                         {% endif %}
                     </p>
 
-                    <div class="mt-auto">
+                    <div class="mt-auto pt-3">
                         <form method="POST">
                             {% csrf_token %}
                             <input type="hidden" name="plan_id" value="{{ plan.id }}">
-                            <button type="submit" class="btn btn-lg btn-success w-100 mt-3">Suscribirse</button>
+                            <button type="submit" class="btn btn-success btn-lg w-100">Suscribirse</button>
                         </form>
                     </div>
                 </div>
@@ -33,13 +34,20 @@
 </div>
 
 <style>
-    .card {
-        background: #ffffff;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    .plan-card {
+        background: #fff;
+        transition: all 0.3s ease;
+        border-top: 4px solid #9f7aea;
     }
-    .card:hover {
-        transform: scale(1.05);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+
+    .plan-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        border-top-color: #7e5edc;
+    }
+
+    .text-purple {
+        color: #9f7aea;
     }
 </style>
 {% endblock %}

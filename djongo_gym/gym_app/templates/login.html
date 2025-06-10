@@ -1,58 +1,68 @@
 {% extends 'base.html' %}
-
-{% block title %}Iniciar Sessió - GymApp{% endblock %}
+{% block title %}Iniciar Sesión - Cesar's Gym{% endblock %}
 
 {% block content %}
-<div class="container mt-5 pt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="text-center">Login</h2>
+<style>
+    body {
+        background-color: #f7f7f7;
+        color: #222;
+        min-height: 100vh;
+    }
+
+    .login-wrapper {
+        min-height: 85vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .card {
+        border: none;
+        border-radius: 1rem;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        background-color: white;
+        padding: 2rem;
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .form-control {
+        background-color: #fff;
+        border: 1px solid #ccc;
+        color: #333;
+    }
+
+    .form-control:focus {
+        border-color: #9f7aea;
+        box-shadow: 0 0 0 0.2rem rgba(159, 122, 234, 0.25);
+    }
+
+    .btn-purple {
+        background-color: #9f7aea;
+        border: none;
+        color: white;
+    }
+
+    .btn-purple:hover {
+        background-color: #7e5edc;
+    }
+</style>
+
+<div class="container login-wrapper">
+    <div class="card">
+        <h2 class="text-center fw-bold mb-4">Iniciar Sesión</h2>
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="mb-3">
+                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                    {{ field }}
                 </div>
-                <div class="card-body">
-                    <!-- Mostrar mensajes de error globales (como mensajes de autenticación fallida) -->
-                    {% if messages %}
-                        <div class="alert alert-danger">
-                            {% for message in messages %}
-                                <p>{{ message }}</p>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-
-                    <form method="post">
-                        <!--Renderización de la página-->
-                        {% csrf_token %}
-                        
-                        {% for field in form %}
-                            <div class="mb-3">
-                                <label for="{{ field.id_for_label }}" class="form-label">
-                                    {{ field.label }}
-                                </label><br>
-
-                                <!-- Mostrar errores para cada campo de formulario -->
-                                {% if field.errors %}
-                                    <div class="alert alert-danger">
-                                        {% for error in field.errors %}
-                                            <p>{{ error }}</p>
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
-
-                                {{ field }}
-                            </div>
-                        {% endfor %}
-                        
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">Iniciar Sessió</button>
-                        </div>
-                    </form>
-                    <!-- <div class="text-center mt-3">
-                        <p>No tens compte? <a href="{% url 'register' %}">Registra't</a></p>
-                    </div> -->
-                </div>
+            {% endfor %}
+            <div class="d-grid">
+                <button type="submit" class="btn btn-purple fw-bold">Entrar</button>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 {% endblock %}

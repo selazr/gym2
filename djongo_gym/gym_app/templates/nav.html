@@ -1,16 +1,21 @@
 <!-- Barra de Navegación -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary py-3">
-    <div class="container-fluid">
-        <!-- Enlace a Inicio -->
-        <a class="navbar-brand" href="{% url 'home' %}">FitGym</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm py-3">
+    <div class="container">
+        <!-- Logo / Título -->
+        <a class="navbar-brand fw-bold fs-4 d-flex align-items-center" href="{% url 'home' %}">
+            <i class="bi bi-dumbbell me-2 fs-3"></i> Cesar's Gym
+        </a>
+
+        <!-- Botón hamburguesa -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
+        <!-- Enlaces de navegación -->
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav align-items-center gap-2">
                 {% if user.is_authenticated %}
-                    
                     {% if user.role == "trainer" %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'trainer:multi_listados' 'ejercicios' %}">Ejercicios</a>
@@ -28,12 +33,10 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'gym_workouts:schedule' %}">Rutinas</a>
                         </li>
-                        <!-- NUEVAS FUNCIONALIDADES -->
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'profile' %}">Mi Perfil</a>
                         </li>
                     {% elif user.role == "admin" %}
-                        <!-- Opciones del Administrador -->
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'admin_gym:user_list' %}">Gestión de Usuarios</a>
                         </li>
@@ -46,9 +49,17 @@
                         </li>
                     {% endif %}
 
-                    <!-- Logout SIEMPRE al final -->
+                    <!-- Cerrar sesión -->
                     <li class="nav-item">
-                        <a class="nav-link text-danger" href="{% url 'logout' %}">Cerrar Sesión</a>
+                        <a class="nav-link text-light fw-semibold d-flex align-items-center" href="{% url 'logout' %}">
+                            <i class="bi bi-box-arrow-right me-1"></i> Cerrar sesión
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link text-light fw-semibold" href="{% url 'login' %}">
+                            <i class="bi bi-box-arrow-in-right me-1"></i> Iniciar sesión
+                        </a>
                     </li>
                 {% endif %}
             </ul>

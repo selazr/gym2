@@ -1,30 +1,52 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2>Listado de Usuarios</h2>
+<div class="container py-5">
+    <h2 class="mb-4 text-center fw-bold">Listado de Usuarios</h2>
 
     <!-- Barra de búsqueda -->
-    <form method="GET" class="mb-3">
+    <form method="GET" class="mb-4">
         <div class="input-group">
+            <span class="input-group-text bg-light"><i class="bi bi-search"></i></span>
             <input type="text" name="search" class="form-control" placeholder="Buscar usuario..." value="{{ search_query }}">
-            <button type="submit" class="btn btn-primary">Buscar</button>
+            <button type="submit" class="btn btn-purple">Buscar</button>
         </div>
     </form>
 
-    <!-- Tabla de usuarios con ordenación -->
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th><a href="?order_by=username">Usuario</a></th>
-                <th><a href="?order_by=first_name">Nombre</a></th>
-                <th><a href="?order_by=last_name">Apellido</a></th>
-                <th><a href="?order_by=email">Correo Electrónico</a></th>
-                <th><a href="?order_by=role">Rol</a></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for user in users %}
+    <!-- Tabla de usuarios -->
+    <div class="table-responsive shadow-sm border rounded">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th>
+                        <a href="?order_by=username&search={{ search_query }}" class="text-white text-decoration-none">
+                            Usuario <i class="bi bi-sort-alpha-down"></i>
+                        </a>
+                    </th>
+                    <th>
+                        <a href="?order_by=first_name&search={{ search_query }}" class="text-white text-decoration-none">
+                            Nombre <i class="bi bi-sort-alpha-down"></i>
+                        </a>
+                    </th>
+                    <th>
+                        <a href="?order_by=last_name&search={{ search_query }}" class="text-white text-decoration-none">
+                            Apellido <i class="bi bi-sort-alpha-down"></i>
+                        </a>
+                    </th>
+                    <th>
+                        <a href="?order_by=email&search={{ search_query }}" class="text-white text-decoration-none">
+                            Correo <i class="bi bi-envelope-at"></i>
+                        </a>
+                    </th>
+                    <th>
+                        <a href="?order_by=role&search={{ search_query }}" class="text-white text-decoration-none">
+                            Rol <i class="bi bi-person-gear"></i>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
                 <tr>
                     <td>{{ user.username }}</td>
                     <td>{{ user.first_name }}</td>
@@ -32,17 +54,18 @@
                     <td>{{ user.email }}</td>
                     <td>{{ user.get_role_display }}</td>
                 </tr>
-            {% empty %}
+                {% empty %}
                 <tr>
-                    <td colspan="5" class="text-center">No se encontraron usuarios</td>
+                    <td colspan="5" class="text-center text-muted">No se encontraron usuarios.</td>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
     <!-- Paginación -->
-    <nav>
-        <ul class="pagination">
+    <nav aria-label="Paginación de usuarios" class="mt-4">
+        <ul class="pagination justify-content-center">
             {% if users.has_previous %}
                 <li class="page-item">
                     <a class="page-link" href="?page=1&order_by={{ order_by }}&search={{ search_query }}">Primero</a>
@@ -53,7 +76,9 @@
             {% endif %}
 
             <li class="page-item disabled">
-                <span class="page-link">Página {{ users.number }} de {{ users.paginator.num_pages }}</span>
+                <span class="page-link">
+                    Página {{ users.number }} de {{ users.paginator.num_pages }}
+                </span>
             </li>
 
             {% if users.has_next %}
@@ -67,4 +92,27 @@
         </ul>
     </nav>
 </div>
+
+<!-- Estilos personalizados -->
+<style>
+    .btn-purple {
+        background-color: #9f7aea;
+        color: white;
+        font-weight: 500;
+        border: none;
+    }
+
+    .btn-purple:hover {
+        background-color: #7e5edc;
+        color: white;
+    }
+
+    .table td,
+    .table th {
+        vertical-align: middle;
+    }
+</style>
+
+<!-- Bootstrap Icons (si aún no están en base.html) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 {% endblock %}
