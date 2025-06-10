@@ -15,14 +15,14 @@
         
         <!-- Nombre de la Rutina -->
         <div class="mb-3">
-            <label for="nombre" class="form-label">Nombre de la Rutina</label>
-            <input type="text" name="nombre" id="nombre" class="form-control" required>
+            <label for="nom" class="form-label">Nombre de la Rutina</label>
+            <input type="text" name="nom" id="nom" class="form-control" required>
         </div>
 
         <!-- Descripción -->
         <div class="mb-3">
-            <label for="descripcion" class="form-label">Descripción</label>
-            <textarea name="descripcion" id="descripcion" class="form-control" rows="4" required></textarea>
+            <label for="descripcio" class="form-label">Descripción</label>
+            <textarea name="descripcio" id="descripcio" class="form-control" rows="4" required></textarea>
         </div>
 
         <!-- Nivel de dificultat -->
@@ -50,7 +50,7 @@
         <div class="mb-3">
             {% for ejercicio in ejercicios %}
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="ejercicio" id="ejercicio{{ ejercicio.id }}" value="{{ ejercicio.id }}">
+                    <input class="form-check-input" type="checkbox" name="ejercicios" id="ejercicio{{ ejercicio.id }}" value="{{ ejercicio.id }}">
                     <label class="form-check-label" for="ejercicio{{ ejercicio.id }}">
                         {{ ejercicio.name }} - {{ ejercicio.duration }} minutos
                     </label>
