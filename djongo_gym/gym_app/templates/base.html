@@ -6,7 +6,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="csrf-token" content="{{ csrf_token }}">
 
-        <title>{% block title %}GymApp{% endblock %}</title>
+        <title>{% block title %}SuperGym{% endblock %}</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
         <link href="{% static 'dist/bundle.css' %}" rel="stylesheet">
     </head>
     <style>
@@ -31,7 +34,6 @@
 
         /* Estilos del footer */
         .footer {
-            background-color: #f8f9fa;
             padding: 20px 0;
             text-align: center;
             width: 100%;
