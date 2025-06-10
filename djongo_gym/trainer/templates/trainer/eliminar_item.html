@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    Confirmar Eliminación
+                </div>
+                <div class="card-body">
+                    {% if tipo == 'ejercicio' %}
+                        <p>¿Estás seguro de que quieres eliminar el ejercicio "{{ item.name }}"?</p>
+                    {% elif tipo == 'rutina' %}
+                        <p>¿Estás seguro de que quieres eliminar la rutina "{{ item.nom }}"?</p>
+                    {% endif %}
+                    
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'trainer:multi_listados' tipo=tipo %}" class="btn btn-secondary">Cancelar</a>
+                            <button type="submit" class="btn btn-danger">Confirmar Eliminación</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

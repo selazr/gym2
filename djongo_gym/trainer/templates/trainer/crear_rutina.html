@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Crear Nueva Rutina</h1>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        
+        <!-- Nombre de la Rutina -->
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre de la Rutina</label>
+            <input type="text" name="nombre" id="nombre" class="form-control" required>
+        </div>
+
+        <!-- Descripción -->
+        <div class="mb-3">
+            <label for="descripcion" class="form-label">Descripción</label>
+            <textarea name="descripcion" id="descripcion" class="form-control" rows="4" required></textarea>
+        </div>
+
+        <!-- Nivel de dificultat -->
+        <div class="mb-3">
+            <label for="dificultat" class="form-label">Nivel de dificultat</label>
+            <select name="dificultat" id="dificultat" class="form-select" required>
+                <option value="Fácil">Fácil</option>
+                <option value="Intermedio">Intermedio</option>
+                <option value="Difícil">Difícil</option>
+            </select>
+        </div>
+
+        <!-- Nivel Energético -->
+        <div class="mb-3">
+            <label for="energia" class="form-label">Nivel Energético</label>
+            <select name="energia" id="energia" class="form-select" required>
+                <option value="3">Bajo</option>
+                <option value="7">Medio</option>
+                <option value="10">Alto</option>
+            </select>
+        </div>
+
+        <!-- Ejercicios Disponibles -->
+        <h3 class="mt-4">Ejercicios Disponibles</h3>
+        <div class="mb-3">
+            {% for ejercicio in ejercicios %}
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="ejercicio" id="ejercicio{{ ejercicio.id }}" value="{{ ejercicio.id }}">
+                    <label class="form-check-label" for="ejercicio{{ ejercicio.id }}">
+                        {{ ejercicio.name }} - {{ ejercicio.duration }} minutos
+                    </label>
+                </div>
+            {% empty %}
+                <p class="text-muted">No hay ejercicios disponibles.</p>
+            {% endfor %}
+        </div>
+
+        <!-- Botón de Guardar -->
+        <button type="submit" class="btn btn-primary">Guardar Rutina</button>
+    </form>
+</div>
+{% endblock %}

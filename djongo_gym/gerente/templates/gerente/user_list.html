@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Listado de Usuarios</h2>
+
+    <!-- Barra de búsqueda -->
+    <form method="GET" class="mb-3">
+        <div class="input-group">
+            <input type="text" name="search" class="form-control" placeholder="Buscar usuario..." value="{{ search_query }}">
+            <button type="submit" class="btn btn-primary">Buscar</button>
+        </div>
+    </form>
+
+    <!-- Tabla de usuarios con ordenación -->
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th><a href="?order_by=username">Usuario</a></th>
+                <th><a href="?order_by=first_name">Nombre</a></th>
+                <th><a href="?order_by=last_name">Apellido</a></th>
+                <th><a href="?order_by=email">Correo Electrónico</a></th>
+                <th><a href="?order_by=role">Rol</a></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.first_name }}</td>
+                    <td>{{ user.last_name }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.get_role_display }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center">No se encontraron usuarios</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Paginación -->
+    <nav>
+        <ul class="pagination">
+            {% if users.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1&order_by={{ order_by }}&search={{ search_query }}">Primero</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ users.previous_page_number }}&order_by={{ order_by }}&search={{ search_query }}">Anterior</a>
+                </li>
+            {% endif %}
+
+            <li class="page-item disabled">
+                <span class="page-link">Página {{ users.number }} de {{ users.paginator.num_pages }}</span>
+            </li>
+
+            {% if users.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ users.next_page_number }}&order_by={{ order_by }}&search={{ search_query }}">Siguiente</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ users.paginator.num_pages }}&order_by={{ order_by }}&search={{ search_query }}">Último</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+{% endblock %}

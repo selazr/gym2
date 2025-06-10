@@ -1,0 +1,57 @@
+<!-- Barra de Navegación -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #f8f9fa; padding: 20px 0;">
+    <div class="container-fluid">
+        <!-- Enlace a Inicio -->
+        <a class="navbar-brand" href="{% url 'home' %}">Inicio</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                {% if user.is_authenticated %}
+                    
+                    {% if user.role == "trainer" %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'trainer:multi_listados' 'ejercicios' %}">Ejercicios</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'trainer:multi_listados' 'rutinas' %}">Rutinas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'trainer:horario' %}">Horario</a>
+                        </li>
+                    {% elif user.role == "user" %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'gym_workouts:subscriptions' %}">Subscripciones</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'gym_workouts:schedule' %}">Rutinas</a>
+                        </li>
+                        <!-- NUEVAS FUNCIONALIDADES -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'profile' %}">Mi Perfil</a>
+                        </li>
+                    {% elif user.role == "admin" %}
+                        <!-- Opciones del Administrador -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'admin_gym:user_list' %}">Gestión de Usuarios</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'admin_gym:create_user' %}">Añadir Usuario</a>
+                        </li>
+                    {% elif user.role == "gerente" %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'gerente:user_list' %}">Listado de Usuarios</a>
+                        </li>
+                    {% endif %}
+
+                    <!-- Logout SIEMPRE al final -->
+                    <li class="nav-item">
+                        <a class="nav-link text-danger" href="{% url 'logout' %}">Cerrar Sesión</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>

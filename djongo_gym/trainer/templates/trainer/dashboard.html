@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Dashboard - Horario de Rutinas</h1>
+
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Hora</th>
+                {% for dia in dias_semana %}
+                    <th>{{ dia }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for hora in horario_lista|slice:":6" %}
+            <tr>
+                <td><strong>{{ hora.hora }}:00</strong></td>
+                {% for dia in dias_semana %}
+                    {% for item in horario_lista %}
+                        {% if item.dia == dia and item.hora == hora.hora %}
+                            <td class="text-center" style="background-color: {{ item.rutina_color }}; padding: 10px; border-radius: 5px;">
+                                {% if item.entry %}
+                                    <strong>{{ item.entry.rutina.nom }}</strong>
+                                {% else %}
+                                    <span class="text-muted">Espacio vacío</span>
+                                {% endif %}
+                            </td>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

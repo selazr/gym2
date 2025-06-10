@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="home">
+    <!-- Mostrar mensajes de éxito solo si estamos en la página de inicio -->
+    {% if request.path == '/' %}
+        {% if messages %}
+            <div class="alert alert-success alert-dismissible fade show mt-1" role="alert">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            
+        {% endif %}
+    {% endif %}
+
+    <h1>Benvingut al Gimnàs</h1>
+    {% if user.is_authenticated %}
+        <p>Hola, {{ user.username }}!</p>
+       
+    {% else %}
+        <p>Si us plau, inicia sessió per continuar.</p>
+    {% endif %}
+</div>
+{% endblock %}
